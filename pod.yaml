@@ -11,11 +11,28 @@ spec:
       image: nginx:latest
       ports:
         - containerPort: 80
+
       startupProbe:
         exec:
           command:
             - cat
             - /usr/share/nginx/html/index.html
-        initialDelaySeconds: 5
-        periodSeconds: 10
-        failureThreshold: 6
+        failureThreshold: 5
+        successThreshold: 6
+        initialDelaySeconds: 3
+
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 80
+        failureThreshold: 5
+        successThreshold: 6
+        initialDelaySeconds: 3  
+           
+      readinessProbe:
+        tcpSocket:
+          port: 80
+        failureThreshold: 5
+        successThreshold: 6
+        initialDelaySeconds: 3  
+      
